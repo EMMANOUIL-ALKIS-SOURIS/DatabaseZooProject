@@ -1,6 +1,6 @@
 import sqlite3
 
-databasepath = "C:\\Users\\manos_pldjgff\\Documents\\7thSemester\\Databases\\Project\\Database\\ZooProjectDataBase.db"
+databasepath = "C:\\Users\\manos_pldjgff\\Documents\\7thSemester\\Databases\\Project\\Database\\BaseScript\\ZooProjectDataBase.db"
 
 def connect_to_db(db_local_path):
 
