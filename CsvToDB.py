@@ -3,7 +3,7 @@ import csv
 import os
 
 # --- Configuration ---
-DATABASE_NAME = "C:\\Users\\manos_pldjgff\\Documents\\7thSemester\\Databases\\Project\\Database\\BaseScript\\ZooProjectDataBase.db"
+DATABASE_NAME = "C:\\Users\\manos_pldjgff\\Documents\\7thSemester\\Databases\\Project\\Database\\DataV1\\ZooProjectDataBaseDataV1.db"
 CSV_DIRECTORY = "./TableCSVs"
 
 IMPORT_ORDER = [
