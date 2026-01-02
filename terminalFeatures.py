@@ -1,5 +1,4 @@
 
-
 def print_menu(adminFlag):
 
     options = {
@@ -13,9 +12,9 @@ def print_menu(adminFlag):
         options["4"] = "Employee Records (Admin Only)"
 
     startupMessage = """
-    \n----ZOO DATABASE TERMINAL INTERFACE----\n
-Please select one of the following options:
-"""
+    \n----ZOO DATABASE TERMINAL INTERFACE----
+    \nPlease select one of the following options:
+    """
 
     menu_body = [f"{k}. {v}" for k, v in sorted(options.items())]
     menu_body.append("0. Exit")
@@ -40,33 +39,29 @@ def validate_menu_choice(adminFlag):
                 
             return choice
 
-        print(f"\n[!] Invalid input. Please select from: {', '.join(sorted(valid_keys))}")
+        print(f"\nInvalid input. Please select from: {', '.join(sorted(valid_keys))}")
 
-def get_id():
+def user_login(connection):
 
     while True:
         user_input = input("Enter your ID:\n")
         
-        if len(user_input) == 6 and user_input.startswith('20') and user_input.isdigit():
-            return user_input
-        elif user_input == '0':
-            return False #False to activate admin mode
+        if user_input == '0':
+            return False, "Admin" #False to activate admin mode
         
-        print("Invalid ID. Must be a valid employee ID.")
-
-
-if __name__ == "__main__":
-
-    #Get user ID
-    user_id = get_id()
-    is_admin = (user_id is False) #is_admin is True when the user inputs '0' and thus user_is is False
-
-    
-
-    if is_admin:
-        print("\nWelcome Admin. Accessing full database...")
-    else:
-        print(f"\nWelcome, User {user_id}!")
-    
-    final_choice = validate_menu_choice(is_admin)
-    print(f"\nProceeding to option: {final_choice}")
+        if len(user_input) == 6 and user_input.startswith('20') and user_input.isdigit():
+            #Fetch the employee name from the database using the provided user_id
+            try:
+                cursor = connection.cursor()
+                cursor.execute("SELECT Name FROM Employee WHERE Employee_ID = ?", (user_input,))
+                result = cursor.fetchone()
+                
+                if result:
+                    # Success: ID exists, and we have the name
+                    return user_input, result[0]
+                else:
+                    print(f"Access Denied: ID {user_input} not found in our records.")
+            except Exception as e:
+                print(f"Database error: {e}")
+        else:
+            print("Invalid ID. Please provide a valid employee ID.")
