@@ -32,10 +32,8 @@ def run_app():
                     print("Exiting program...")
                     exit(0)
                 case "1":
-                    #print("\n[Search with ID selected]")
-                    user_input = input("Enter the ID to search for:\n")
-                    res = gui.search_by_id(db_connection, user_input)
-                    print(f"{res}")
+                    res = gui.search_by_id(db_connection)
+                    continue
                 case "2":
                     print("\n[Statistics selected]")
                 case "3":

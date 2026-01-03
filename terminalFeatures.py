@@ -62,151 +62,109 @@ def user_login(connection):
             print("Invalid ID. Please provide a valid employee ID.")
 
 
-def search_by_id(connection, entity_id):
-    
-    if len(entity_id) == 6 and entity_id.startswith('8') and entity_id.isdigit():
-        #Fetch the ticket's details from the database using the provided ticket_id
+def search_by_id(connection):
+
+    while True:
+        entity_id = input("Enter the ID to search for or type 'Cancel' to return to the menu:\n")
+        
+        if entity_id.lower() == 'cancel':
+            return None
+
+        #Sepcific prefixes for each entity type
+        prefixes = {
+            "8": "Ticket",
+            "9": "Event",
+            "10": "Animal",
+            "12": "Contract",
+            "15": "Diet",
+            "20": "Employee",
+            "30": "Food",
+            "44": "Area",
+            "54": "Habitat"
+        }
+
+        #Check the provided ID's format
+        if not (len(entity_id) == 6 and entity_id.isdigit()):
+            print("Invalid ID format. Please ensure the ID is correct.")
+            continue
+
+        #Scan through all available tables to see whether the ID's prefix matches any known entity
+        table_name = None
+        for prefix, table in prefixes.items():
+            if entity_id.startswith(prefix):
+                table_name = table
+                break
+
+        #Case where no matching table is found with provided 6 digit ID
+        if not table_name:
+            print("Invalid ID format. Please ensure the ID is correct.")
+            continue
+
+        #Being here means that the ID's prefix matches a known entity and we're ready to retrieve data from the database
         try:
             cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Ticket WHERE Ticket_ID = ?", (entity_id,))
-            result = cursor.fetchall()
+            query = f"SELECT * FROM {table_name} WHERE {table_name}_ID = ?"
+            cursor.execute(query, (entity_id,))
+            result = cursor.fetchone()
             
             if result:
-                #ID exists
-                return result[0]
+                #Being here means that given ID exists
+                column_names = [description[0] for description in cursor.description]
+                
+                output_parts = [f"\n'{name}' : {val}" for name, val in zip(column_names, result)]
+                formatted_output = " ".join(output_parts)
+                
+                print(f"\nMatching record of type '{table_name}' found:")
+                print(formatted_output)
+
+                #Dynamic reference searching based on entity type
+                if table_name == "Food":
+                    print(f"\n=== Associated References of {table_name} with ID: {entity_id} ===\n")
+
+                    #Search where food is stored, how much of it remains in stock and in what diets it's used in
+                    
+                    refrence_queries = {
+                        "Stored in storage position" : "SELECT Aisle, Row, Shelf FROM Is_stored WHERE Food_ID = ?",
+                        "Remaining quantity" : "SELECT Remaining_Quantity, Unit_Type FROM Stock WHERE Food_ID = ?",
+                        "Used in diets": "SELECT Diet_ID FROM Diet_Contains_Food WHERE Food_ID = ?"
+                    }
+
+                    for name, query in refrence_queries.items():
+
+                        try:
+                            cursor.execute(query, (entity_id,))
+                            results = cursor.fetchall()
+
+                            if results:
+                                #Extracting the elements from each tuple
+                                values = []
+
+                                for r in results:
+                                    
+                                    if len(r) > 1:
+                                        rowString = "-".join([str(val) for val in r])
+                                        values.append(rowString)
+                                    else:
+                                        values.append(str(r[0]))
+
+                                print(f"-> {name}: {', '.join(values)}")    
+                            else:
+                                print(f"-> {name}: None found")
+
+                        except Exception as e:
+                            print(f"Error fetching {name}: {e}")
+
+
+                elif table_name == "Animal":
+                    print(f"\n=== Associated References of {table_name} with ID: {entity_id} ===\n")
+
+
+
+                return result #Returns first matching record with specified ID
             else:
                 print(f"ID {entity_id} not found in our records.")
 
         except Exception as e:
             print(f"Database error: {e}")
 
-    elif len(entity_id) == 6 and entity_id.startswith('9') and entity_id.isdigit():
-        #Fetch the event's details from the database using the provided event_id
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Event WHERE Event_ID = ?", (entity_id,))
-            result = cursor.fetchall()
-            
-            if result:
-                #ID exists
-                return result[0]
-            else:
-                print(f"ID {entity_id} not found in our records.")
 
-        except Exception as e:
-            print(f"Database error: {e}")
-
-    elif len(entity_id) == 6 and entity_id.startswith('10') and entity_id.isdigit():
-        #Fetch the animal's details from the database using the provided animal_id
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Animal WHERE Animal_ID = ?", (entity_id,))
-            result = cursor.fetchall()
-            
-            if result:
-                #ID exists
-                return result[0]
-            else:
-                print(f"ID {entity_id} not found in our records.")
-
-        except Exception as e:
-            print(f"Database error: {e}")
-
-    elif len(entity_id) == 6 and entity_id.startswith('12') and entity_id.isdigit():
-        #Fetch the contract's details from the database using the provided contract_id
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Contract WHERE Contract_ID = ?", (entity_id,))
-            result = cursor.fetchall()
-            
-            if result:
-                #ID exists
-                return result[0]
-            else:
-                print(f"ID {entity_id} not found in our records.")
-
-        except Exception as e:
-            print(f"Database error: {e}")
-
-    elif len(entity_id) == 6 and entity_id.startswith('15') and entity_id.isdigit():
-        #Fetch the diet's details from the database using the provided diet_id
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Diet WHERE Diet_ID = ?", (entity_id,))
-            result = cursor.fetchall()
-            
-            if result:
-                #ID exists
-                return result[0]
-            else:
-                print(f"ID {entity_id} not found in our records.")
-
-        except Exception as e:
-            print(f"Database error: {e}")
-
-    elif len(entity_id) == 6 and entity_id.startswith('20') and entity_id.isdigit():
-        #Fetch the employee's details from the database using the provided employee_id
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Employee WHERE Employee_ID = ?", (entity_id,))
-            result = cursor.fetchall()
-            
-            if result:
-                #ID exists
-                return result[0]
-            else:
-                print(f"ID {entity_id} not found in our records.")
-
-        except Exception as e:
-            print(f"Database error: {e}")
-    
-    elif len(entity_id) == 6 and entity_id.startswith('30') and entity_id.isdigit():
-        #Fetch the food's details from the database using the provided food_id
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Food WHERE Food_ID = ?", (entity_id,))
-            result = cursor.fetchall()
-            
-            if result:
-                #ID exists
-                return result[0]
-            else:
-                print(f"ID {entity_id} not found in our records.")
-
-        except Exception as e:
-            print(f"Database error: {e}")
-
-    elif len(entity_id) == 6 and entity_id.startswith('44') and entity_id.isdigit():
-        #Fetch the area's details from the database using the provided area_id
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Area WHERE Area_ID = ?", (entity_id,))
-            result = cursor.fetchall()
-            
-            if result:
-                #ID exists
-                return result[0]
-            else:
-                print(f"ID {entity_id} not found in our records.")
-
-        except Exception as e:
-            print(f"Database error: {e}")
-
-    elif len(entity_id) == 6 and entity_id.startswith('54') and entity_id.isdigit():
-        #Fetch the habitat's details from the database using the provided habitat_id
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Habitat WHERE Habitat_ID = ?", (entity_id,))
-            result = cursor.fetchall()
-            
-            if result:
-                #ID exists
-                return result[0]
-            else:
-                print(f"ID {entity_id} not found in our records.")
-
-        except Exception as e:
-            print(f"Database error: {e}")
-    
-    else:
-        print("Invalid ID format. Please ensure the ID is correct.")
