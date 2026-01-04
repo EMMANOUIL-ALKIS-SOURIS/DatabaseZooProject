@@ -64,7 +64,7 @@ def getAnimalQueries():
         "Animal's Trainer": "SELECT a.Employee_ID, e.Surname, e.Name, e.Email FROM Animal a JOIN Employee e  ON a.Employee_ID = e.Employee_ID WHERE a.Animal_ID = ?",
         "Animal's Vet": "SELECT v.Employee_ID, e.Surname, e.Name, e.Email FROM Vet_Treats_Animal v JOIN Employee e ON v.Employee_ID = e.Employee_ID WHERE v.Animal_ID = ?",
         "Animal's Diet and Alergies": "SELECT a.Diet_ID, d.Allergies FROM Animal a JOIN Diet d ON a.Diet_ID = d.Diet_ID WHERE a.Animal_ID = ?",
-        "Animal's Habitat": "SELECT a.Habitat_ID, h.Type, h.Position FROM Animal a JOIN Habitat h ON a.Habitat_ID = h.Habitat_ID WHERE a.Animal_ID = ?",
+        "Animal's Habitat (including habitat's position)": "SELECT a.Habitat_ID, h.Type, h.Position FROM Animal a JOIN Habitat h ON a.Habitat_ID = h.Habitat_ID WHERE a.Animal_ID = ?",
         "Habitat's Keeper": 
         """
         SELECT k.Employee_ID, e.Surname, e.Name, e.Email 

@@ -6,14 +6,12 @@ def print_menu(adminFlag):
     options = {
         "1": "View/Edit Tables",
         "2": "Search with ID",
-        "3": "Statistics",
     }
 
     #Features only admins can access are added dynamically when admin mode is activated
     if adminFlag:
-        # options["3"] = "Manage Enclosures (Admin Only)"
-        # options["4"] = "Employee Records (Admin Only)"
-        options["4"] = "Send SQL Query(Admin Only)"
+        options["3"] = "Statistics (Admin Only)"
+        options["4"] = "Send SQL Query (Admin Only)"
 
     startupInterface = "\tZOO DATABASE TERMINAL INTERFACE"
 
