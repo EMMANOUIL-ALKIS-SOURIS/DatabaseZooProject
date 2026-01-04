@@ -158,7 +158,7 @@ def getEmployeeQueries():
     #Trainer -> Animals they train
     #Security -> Areas they overwatch
     #Cleaner -> Areas they clean
-    #Guide -> How many tickets they were included in in the last month
+    #Guide -> Services they provide
     return{        
         "Employee's current role":
         """
@@ -238,7 +238,7 @@ def getFoodQueries():
 #Area table
 def getAreaQueries():
 
-    #Search for habitats contained in the area and employees (Security & Cleaner) assigned to it (++ maybe how many tickets were sold for this area)
+    #Search for habitats contained in the area and employees (Security & Cleaner) assigned to it
     return{
         "Habitats contained in Area": "SELECT Habitat_ID, Position, Type, Status FROM Habitat WHERE Area_ID = ?",
         "Security that overwatches Area": "SELECT s.Employee_ID, e.Surname, e.Name, e.Phone FROM Security_Overwatches_Area s JOIN Employee e ON s.Employee_ID = e.Employee_ID WHERE s.Area_ID = ?",
@@ -286,5 +286,4 @@ def referenceSearchQueries(table_name, entity_id, cursor, queries_dictionary):
 
         except Exception as e:
             print(f"Error fetching {name}: {e}")
-
 
