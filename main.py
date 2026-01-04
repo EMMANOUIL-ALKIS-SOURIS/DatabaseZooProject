@@ -1,5 +1,6 @@
 from connectToDB import connect_to_db
 import terminalFeatures as features
+import statistics as stat
 
 def run_app():
     
@@ -12,16 +13,21 @@ def run_app():
 
     try:
 
+        #First menu welcome message
+        print("\n" + "="*40)
+        print("\tWELCOME TO THE ZOO DATABASE")
+        print("="*40)
+
         # 2.Get user identification
         user_id, user_name = features.user_login(db_connection)
         is_admin = (user_id is False) #is_admin is True when the user inputs '0' and thus user_is is False
 
         # 3.Dynamic Welcome Message
         if is_admin:
-            print("\nWelcome Admin. Accessing full database...")
+            print("\nWelcome Admin. Accessing full database...\n")
         else:
             #Fetch and display the specific name for employee user
-            print(f"\nWelcome {user_name}!")
+            print(f"\nWelcome {user_name}!\n")
 
         # 4.Main Program Loop - Menu and Choices
         while True:
@@ -32,14 +38,17 @@ def run_app():
                     print("Exiting program...")
                     exit(0)
                 case "1":
-                    res = features.search_by_id(db_connection)
+                    features.list_tables_and_select(db_connection)
                     continue
-                case "2":
-                    print("\n[Statistics selected]")
+                case "2":                    
+                    res = features.search_by_id(db_connection)
+                    continue                    
                 case "3":
-                    print("\n[Manage Enclosures selected]")
+                    #print("\n[Manage Enclosures selected]")
+                    stat.get_inventory_report(db_connection)
                 case "4":
-                    print("\n[Employee Records selected]")
+                    #print("\n[Employee Records selected]")
+                    features.run_admin_query(db_connection)
             
             input("\nPress Enter to return to the menu...")
 
