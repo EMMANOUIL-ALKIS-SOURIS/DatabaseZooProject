@@ -1,3 +1,5 @@
+import queries
+
 
 def print_menu(adminFlag):
 
@@ -108,7 +110,10 @@ def search_by_id(connection):
             result = cursor.fetchone()
             
             if result:
-                #Being here means that given ID exists
+                #**Being here means that given ID exists**
+                
+                #Fetch sepcific's data and metadata (column names)
+
                 column_names = [description[0] for description in cursor.description]
                 
                 output_parts = [f"\n'{name}' : {val}" for name, val in zip(column_names, result)]
@@ -117,50 +122,35 @@ def search_by_id(connection):
                 print(f"\nMatching record of type '{table_name}' found:")
                 print(formatted_output)
 
-                #Dynamic reference searching based on entity type
-                if table_name == "Food":
-                    print(f"\n=== Associated References of {table_name} with ID: {entity_id} ===\n")
+                #Dynamically searching the references of each entity type
+                if table_name == "Ticket":
+                    queries.referenceSearchQueries(table_name, entity_id, cursor, queries.getTicketQueries())
 
-                    #Search where food is stored, how much of it remains in stock and in what diets it's used in
-                    
-                    refrence_queries = {
-                        "Stored in storage position" : "SELECT Aisle, Row, Shelf FROM Is_stored WHERE Food_ID = ?",
-                        "Remaining quantity" : "SELECT Remaining_Quantity, Unit_Type FROM Stock WHERE Food_ID = ?",
-                        "Used in diets": "SELECT Diet_ID FROM Diet_Contains_Food WHERE Food_ID = ?"
-                    }
-
-                    for name, query in refrence_queries.items():
-
-                        try:
-                            cursor.execute(query, (entity_id,))
-                            results = cursor.fetchall()
-
-                            if results:
-                                #Extracting the elements from each tuple
-                                values = []
-
-                                for r in results:
-                                    
-                                    if len(r) > 1:
-                                        rowString = "-".join([str(val) for val in r])
-                                        values.append(rowString)
-                                    else:
-                                        values.append(str(r[0]))
-
-                                print(f"-> {name}: {', '.join(values)}")    
-                            else:
-                                print(f"-> {name}: None found")
-
-                        except Exception as e:
-                            print(f"Error fetching {name}: {e}")
-
+                elif table_name == "Event":
+                    queries.referenceSearchQueries(table_name, entity_id, cursor, queries.getEventQueries())
 
                 elif table_name == "Animal":
-                    print(f"\n=== Associated References of {table_name} with ID: {entity_id} ===\n")
+                    queries.referenceSearchQueries(table_name, entity_id, cursor, queries.getAnimalQueries())
 
+                elif table_name == "Contract":
+                    queries.referenceSearchQueries(table_name, entity_id, cursor, queries.getContractQueries())
 
+                elif table_name == "Diet":
+                    queries.referenceSearchQueries(table_name, entity_id, cursor, queries.getDietQueries())
 
-                return result #Returns first matching record with specified ID
+                elif table_name == "Employee":
+                    queries.referenceSearchQueries(table_name, entity_id, cursor, queries.getEmployeeQueries())
+                
+                elif table_name == "Food":                    
+                    queries.referenceSearchQueries(table_name, entity_id, cursor, queries.getFoodQueries())                
+
+                elif table_name == "Area":
+                    queries.referenceSearchQueries(table_name, entity_id, cursor, queries.getAreaQueries())
+
+                elif table_name == "Habitat":
+                    queries.referenceSearchQueries(table_name, entity_id, cursor, queries.getHabitatQueries())
+
+                return result #Returns first matching record with specified ID (in case it's needed in invoking method)
             else:
                 print(f"ID {entity_id} not found in our records.")
 

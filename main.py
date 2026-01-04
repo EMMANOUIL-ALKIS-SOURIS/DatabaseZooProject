@@ -1,5 +1,5 @@
 from connectToDB import connect_to_db
-import terminalFeatures as gui
+import terminalFeatures as features
 
 def run_app():
     
@@ -13,7 +13,7 @@ def run_app():
     try:
 
         # 2.Get user identification
-        user_id, user_name = gui.user_login(db_connection)
+        user_id, user_name = features.user_login(db_connection)
         is_admin = (user_id is False) #is_admin is True when the user inputs '0' and thus user_is is False
 
         # 3.Dynamic Welcome Message
@@ -25,14 +25,14 @@ def run_app():
 
         # 4.Main Program Loop - Menu and Choices
         while True:
-            choice = gui.validate_menu_choice(is_admin)
+            choice = features.validate_menu_choice(is_admin)
             
             match choice:
                 case "0":
                     print("Exiting program...")
                     exit(0)
                 case "1":
-                    res = gui.search_by_id(db_connection)
+                    res = features.search_by_id(db_connection)
                     continue
                 case "2":
                     print("\n[Statistics selected]")
