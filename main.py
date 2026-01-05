@@ -45,6 +45,7 @@ def run_app():
                     continue                    
                 case "3":
                     features.statistics_menu(db_connection)
+                    continue
                 case "4":
                     features.run_admin_query(db_connection)
             
