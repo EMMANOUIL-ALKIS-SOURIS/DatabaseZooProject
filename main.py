@@ -4,7 +4,7 @@ import statistics as stat
 
 def run_app():
     
-    # 1.Open the connection once for the entire session
+    #1.Open the connection once for the entire session
     db_connection = connect_to_db()
 
     if not db_connection:
@@ -18,18 +18,18 @@ def run_app():
         print("\tWELCOME TO THE ZOO DATABASE")
         print("="*40)
 
-        # 2.Get user identification
+        #2.Get user identification
         user_id, user_name = features.user_login(db_connection)
         is_admin = (user_id is False) #is_admin is True when the user inputs '0' and thus user_is is False
 
-        # 3.Dynamic Welcome Message
+        #3.Dynamic Welcome Message
         if is_admin:
             print("\nWelcome Admin. Accessing full database...\n")
         else:
             #Fetch and display the specific name for employee user
             print(f"\nWelcome {user_name}!\n")
 
-        # 4.Main Program Loop - Menu and Choices
+        #4.Main Program Loop - Menu and Choices
         while True:
             choice = features.validate_menu_choice(is_admin)
             

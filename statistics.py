@@ -31,6 +31,9 @@ def get_salary_expenses_report():
         FROM Contract;
     """
 
+    #Useful because it helps zoo management monitor and control salary expenses,
+    #identify which roles incur the highest costs, and make informed decisions about budgeting and resource allocation
+
     return title, query, ["Employee Role", "Total Monthly Spend ($)", "Staff Count"]
 
 def get_ticket_revenue_report():
@@ -65,6 +68,8 @@ def get_ticket_revenue_report():
         FROM Ticket
         ORDER BY Total_Revenue DESC;
     """
+
+    #Useful because it helps zoo management identify which ticket types and areas are the most profitable
 
     return title, query, ["Area / Category", "Class", "Type", "Revenue ($)", "Qty"]
 
@@ -192,6 +197,9 @@ def get_inventory_report():
         ORDER BY s.Remaining_Quantity ASC;
     """
 
+    #Useful because it helps zoo management maintain adequate food supplies for the animals,
+    #preventing shortages that could impact animal health and well-being.
+
     return title, query, ["Food Item", "Remaining", "Unit"]
 
 def get_food_consumption_stats():
@@ -212,6 +220,9 @@ def get_food_consumption_stats():
         GROUP BY f.Food_ID, f.Name, f.Category
         ORDER BY Animal_Count DESC, Total_Required_Qty DESC;
     """
+
+    #Useful because it helps zoo management understand which food items are in high demand across multiple animal diets,
+    #enabling better inventory planning and supply strategies to ensure consistent availability.
 
     return title, query, ["Food Item", "Diet Count", "Total Qty/Feeding", "Category"]
 
@@ -243,7 +254,6 @@ def statFunction(connection, statFuncFlag):
     cursor = connection.cursor()
 
     for func in statSelected:
-        # query, head = func(connection)
         title, query, head = func()
 
         try:            
