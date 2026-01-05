@@ -1,0 +1,21 @@
+Animal_ID,Diet_ID,Habitat_ID,Employee_ID,Name,Category,Species,Behavioral_Characteristics,Date_Joined
+100001,150001,540501,200001,Shere Khan,Mammal,Bengal Tiger,"Solitary, Territorial",2020-05-15
+100002,150002,540401,200002,Caesar,Mammal,Chimpanzee,"Social, Highly Intelligent",2018-09-22
+100003,150001,540101,200003,Zola,Mammal,African Elephant,"Calm, Herd Animal",2015-03-10
+100004,150003,540301,200004,Skye,Bird,Macaw,"Loud, Playful",2021-11-01
+100005,150009,540201,200001,Spike,Reptile,Komodo Dragon,"Lethargic, Ambush Predator",2019-07-07
+100006,150005,540102,200002,Luna,Mammal,Red Panda,"Shy, Arboreal",2022-01-20
+100007,150010,540302,200003,Talon,Bird,Golden Eagle,"Fierce, Majestic",2017-06-12
+100008,150001,540502,200004,Simba,Mammal,African Lion,"Dominant, Pride Member",2020-02-29
+100009,150001,540101,200001,Gaia,Mammal,Giraffe,"Gentle, Grazer",2016-10-18
+100010,150005,540402,200002,Coco,Mammal,Orangutan,"Reserved, Tool User",2019-04-05
+100011,150001,540102,200003,Rocky,Mammal,Black Rhino,"Stubborn, Solitary",2014-11-25
+100012,150004,540301,200004,Zippy,Bird,African Penguin,"Energetic, Colony Member",2023-01-15
+100013,150009,540202,200001,Sly,Reptile,Alligator,"Patient, Aquatic",2018-08-01
+100014,150006,540501,200002,Zara,Mammal,Snow Leopard,"Elusive, Mountain Dweller",2021-03-03
+100015,150001,540101,200003,Marty,Mammal,Zebra,"Nervous, Fast Runner",2022-09-10
+100016,150008,540401,200004,Mika,Mammal,Gorilla,"Powerful, Family-Oriented",2017-12-01
+100017,150010,540201,200001,Naja,Reptile,King Cobra,"Venomous, Alert",2020-04-14
+100018,150004,540302,200002,Hermes,Bird,Peregrine Falcon,"Swift, Hunter",2023-06-06
+100019,150001,540502,200003,Nala,Mammal,African Lion,"Playful, Social",2020-03-01
+100020,150007,540102,200004,Rory,Mammal,Kangaroo,"Jumpy, Docile",2022-05-08
