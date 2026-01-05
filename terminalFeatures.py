@@ -172,7 +172,7 @@ def statistics_menu(connection):
 
     statistics_menu = "\n===== ZOO STATISTICS DASHBOARD =====\nPlease select one of the following statistics options:\n"
 
-    menuOptions = [f"{k}: {v}" for k, v in statisticOptions.items()]
+    menuOptions = [f"{k}. {v}" for k, v in statisticOptions.items()]
 
     print(statistics_menu)
     print("\n".join(menuOptions))
@@ -666,16 +666,12 @@ def table_operations_menu(db_connection, table_name):
         
         if choice == '1':
             view_table_content(db_connection.cursor(), table_name)
-            input("Press Enter to continue...")
         elif choice == '2':
             add_row_to_table(db_connection, table_name)
-            input("Press Enter to continue...")
         elif choice == '3':
             edit_row_in_table(db_connection, table_name)
-            input("Press Enter to continue...")
         elif choice == '4':
             delete_row_from_table(db_connection, table_name)
-            input("Press Enter to continue...")
         elif choice == '0':
             break
         else:
@@ -782,5 +778,3 @@ def run_admin_query(db_connection):
     except sqlite3.Error as e:
         print(f"\n[SQL ERROR]: {e}")
         db_connection.rollback()
-    
-    input("Press Enter to continue...")

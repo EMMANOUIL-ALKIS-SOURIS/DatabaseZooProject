@@ -39,17 +39,12 @@ def run_app():
                     exit(0)
                 case "1":
                     features.list_tables_and_select(db_connection)
-                    continue
                 case "2":                    
                     res = features.search_by_id(db_connection)
-                    continue                    
                 case "3":
                     features.statistics_menu(db_connection)
-                    continue
                 case "4":
                     features.run_admin_query(db_connection)
-            
-            input("\nPress Enter to return to the menu...")
 
     except Exception as e:
         print(f"\nA runtime error occurred: {e}")
