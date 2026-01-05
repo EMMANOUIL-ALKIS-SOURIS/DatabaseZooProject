@@ -1,4 +1,5 @@
 import queries
+import statistics
 import sqlite3
 
 def print_menu(adminFlag):
@@ -159,8 +160,48 @@ def search_by_id(connection):
         except Exception as e:
             print(f"Database error: {e}")
 
+def statistics_menu(connection):
 
-#Main Menu View/Edit + Send Queries (Vaggelis)
+    statisticOptions = {
+        "1": "Financial Statistics",
+        "2": "Area / Habitat and Animal Statistics",
+        "3": "Food Statistics",
+        "4": "View all available Statistics (Full Zoo Report)",
+        "0": "Return to Main Menu"
+    }
+
+    statistics_menu = "\n===== ZOO STATISTICS DASHBOARD =====\nPlease select one of the following statistics options:\n"
+
+    menuOptions = [f"{k}: {v}" for k, v in statisticOptions.items()]
+
+    print(statistics_menu)
+    print("\n".join(menuOptions))
+
+    while True:
+        choice = input("\nWaiting for input: ").strip()
+
+        if choice in statisticOptions.keys():                
+            
+            match choice:
+            
+                case "1":
+                    statistics.statFunction(connection, 0) #Financial statistics
+                    break
+                case "2":
+                    statistics.statFunction(connection, 1) #Area, Habitat, Animal statistics
+                    break
+                case "3":
+                    statistics.statFunction(connection, 2) #Food statistics
+                    break
+                case "4":
+                    statistics.full_zoo_report(connection) #Full report
+                    break
+                case "0":
+                    return
+        else:
+            print(f"\nInvalid input. Please select from: {', '.join(sorted(statisticOptions.keys()))}")
+
+#Main Menu View/Edit + Send Queries
 def get_table_row_count(cursor, table_name):
     try:
         cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
@@ -743,4 +784,3 @@ def run_admin_query(db_connection):
         db_connection.rollback()
     
     input("Press Enter to continue...")
-#End Vaggelis

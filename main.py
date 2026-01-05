@@ -44,10 +44,8 @@ def run_app():
                     res = features.search_by_id(db_connection)
                     continue                    
                 case "3":
-                    #print("\n[Manage Enclosures selected]")
-                    stat.get_inventory_report(db_connection)
+                    features.statistics_menu(db_connection)
                 case "4":
-                    #print("\n[Employee Records selected]")
                     features.run_admin_query(db_connection)
             
             input("\nPress Enter to return to the menu...")
